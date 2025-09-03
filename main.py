@@ -28,13 +28,24 @@ async def export(req: ExportRequest):
         await crawler.fetch()
         data = await crawler.get_ticker_list()
 
-        filepath = os.path.join("/tmp", req.filename)  # 임시 디렉토리에 저장
+        os.makedirs("/tmp", exist_ok=True)
+
+        # 확장자 보정
         if req.file_type == "excel":
-            to_excel(data, filepath)
+            if not req.filename.endswith(".xlsx"):
+                req.filename += ".xlsx"
         elif req.file_type == "csv":
-            to_csv(data, filepath)
+            if not req.filename.endswith(".csv"):
+                req.filename += ".csv"
         else:
             return {"error": "Invalid file type"}
+
+        filepath = os.path.join("/tmp", req.filename)
+
+        if req.file_type == "excel":
+            to_excel(data, filepath)
+        else:
+            to_csv(data, filepath)
 
     return FileResponse(
         path=filepath,
