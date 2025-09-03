@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from ticker_crawler import TickerCrawler, to_excel, to_csv
 import asyncio
@@ -32,4 +34,12 @@ async def export(req: ExportRequest):
         else:
             return {"error": "Invalid file type"}
 
-    return {"message": f"File {req.filename} created successfully."}
+    return FileResponse(
+        path=req.filename,
+        media_type=(
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            if req.file_type == "excel"
+            else "text/csv"
+        ),
+        filename=req.filename,
+    )
