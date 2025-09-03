@@ -15,7 +15,7 @@ class TickerCrawler:
 
     async def __aenter__(self):
         self._pw = await async_playwright().start()
-        browser = await self._pw.chromium.launch(headless=True)
+        browser = await self._pw.chromium.launch(headless=True, args=["--no-sandbox"])
         self._context = await browser.new_context(extra_http_headers=self.const_HEADER)
         self._page = await self._context.new_page()
         self._page.set_default_timeout(self.const_TIMEOUT)

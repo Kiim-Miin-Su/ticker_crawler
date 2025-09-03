@@ -1,15 +1,6 @@
-# 웹 프레임워크
 fastapi
 uvicorn[standard]
-
-# 크롤링
 playwright
-
-# 데이터 처리
 pandas
 openpyxl
-
-# 모델 검증 (이미 ticker_crawler에 pydantic 사용 가능성 있음)
 pydantic
-
-# 선택: CSV는 pandas가 커버하므로 별도 패키지 필요 없음
