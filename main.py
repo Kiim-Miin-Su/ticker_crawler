@@ -7,7 +7,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["https://kiim-miin-su.github.io/ticker_crawler_front/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -31,7 +31,5 @@ async def export(req: ExportRequest):
             to_csv(data, req.filename)
         else:
             return {"error": "Invalid file type"}
-
-    crawler.close()
 
     return {"message": f"File {req.filename} created successfully."}
