@@ -5,9 +5,19 @@ import asyncio
 
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
 class ExportRequest(BaseModel):
-    file_type: str   # "excel" or "csv"
+    file_type: str  # "excel" or "csv"
     filename: str
+
 
 @app.post("/export")
 async def export(req: ExportRequest):
@@ -21,5 +31,7 @@ async def export(req: ExportRequest):
             to_csv(data, req.filename)
         else:
             return {"error": "Invalid file type"}
+
+    crawler.close()
 
     return {"message": f"File {req.filename} created successfully."}
