@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://kiim-miin-su.github.io/ticker_crawler_front/"],
+    allow_origins=["https://kiim-miin-su.github.io/"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
